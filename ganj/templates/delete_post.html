@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}حذف پست{% endblock %}
+
+{% block content %}
+<section class="section is-medium has-text-centered">
+    <form action="{% url 'delete_post' post.id %}" method="post">
+        {% csrf_token %}
+        <p class="title">آیا مایل به حذف پست هستید؟</p>
+        <button class="button is-danger">👍</button>
+    </form>
+    <hr />
+    <a href="{% url 'index' %}">
+        <button class="button is-primary">🏠نه، برگرد به خانه</button>
+    </a>
+</section>
+{% endblock %}

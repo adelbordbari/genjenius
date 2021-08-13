@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+ویرایش پست
+{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container is-widescreen">
+    <div class="notification is-primary has-text-right">
+      <strong dir="auto">ویرایش پست</strong>
+    </div>
+  </div><br />
+  
+  <form method="post" action="" role="form" enctype="multipart/form-data" class="col s12">
+    {% csrf_token %}
+    <div class="container">
+      <div class="card">
+        <div class="card-content">
+          <div class="content has-text-centered">
+            <p>
+            <label class="subtitle">تیتر</label>
+            {{ form.title }}
+            </p>
+            <div class="columns">
+              <div class="column">
+                <label class="subtitle">تگ ها</label>
+                {{ form.tags }}
+              </div>
+              <div class="column">
+                <label class="subtitle">نویسنده</label>
+                {{ form.author }}
+              </div>
+            </div>
+            <p>
+              <label class="subtitle is-danger" dir="auto" style="color:red;">
+                <small>*متن پست قابل تغییر نیست</small>
+              </label>
+            </p>
+
+            <script>
+              $( function() {
+                var availableTags = [
+                    {% for author in authors %}
+                        "{{ author }}",
+                    {% endfor %}
+                ];
+                $( "#authorautocomplete" ).autocomplete({
+                  source: availableTags
+                });
+              } );
+            </script>
+
+            {% if form.errors %}
+            <br /><br />
+              <span style="color: red; font-weight: bold">
+                اطلاعات وارد شده صحیح نیست
+              </span>
+            <br /><br />
+            {% endif %}
+
+            <div class="field has-text-centered">
+              <p class="control">
+                <input type="hidden" name="next" value="{{ next }}" />
+                <p>
+                  <button type="submit" class="button is-light">
+                    پست
+                  </button>
+                </p>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends 'base.html' %} {% load static %}
+{% block title %} پروفایل {% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container is-widescreen">
+    <div class="notification is-primary has-text-right">
+      <strong dir="auto">پروفایل</strong>
+    </div>
+  </div>
+  <br />
+
+  <div class="card">
+    <div class="card-content">
+      <div class="columns">
+        <div class="media">
+          <div class="media-left">
+            <div class="card-image">
+              <figure class="image is-128x128 mt-3 ml-6">
+                {% if profile.pfp %}
+                  <img src="{{ profile.pfp.url }}" alt="Post image" />
+                {% else %}
+                  <img src="https://bulma.io/images/placeholders/128x128.png"/>
+                {% endif %}
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <nav class="level mt-5">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">پست ها</p>
+                <p class="title">{{ posts_count }}</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">دنبال شونده ها</p>
+                <p class="title">{{ following_count }}</p>
+                <a href="{% url 'others_followings' profile.user.username %}">
+                  <span class="tag is-light is-info">لیست</span>
+                </a>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">دنبال کننده ها</p>
+                <p class="title">{{ followers_count }}</p>
+                <a href="{% url 'others_followers' profile.user.username %}">
+                  <span class="tag is-light is-info">لیست</span>
+                </a>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">امتیاز</p>
+                <p class="title">{{ xp }}</p>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+      <div class="content has-text-centered">
+        <div class="media-content has-text-centered">
+          <p class="title is-3">
+            {{ profile.user.first_name }} {{ profile.user.last_name }}
+          </p>
+          <p class="subtitle is-5">
+            <strong>@{{ profile.user.username }}</strong>
+          </p>
+          <p><i>{{ profile.profile_info }}</i></p>
+          <p class="subtitle is-6">Joined {{ profile.created }}</p>
+        </div>
+        <br />
+        <footer class="card-footer">
+          {% if user.is_authenticated and user != profile.user %}
+          <a href="#" class="card-footer-item has-text-centered">پیام✍️</a>
+          {% if follow_status == True %}
+          <a
+            href="{% url 'follow' profile.user 0 %}"
+            class="card-footer-item has-text-centered"
+            >Unfollow 👥</a
+          >
+          {% else %}
+          <a
+            href="{% url 'follow' profile.user 1 %}"
+            class="card-footer-item has-text-centered"
+            >Follow 👥</a
+          >
+          {% endif %} {% else %}
+          <a
+            href="{% url 'edit-profile' %}"
+            class="card-footer-item has-text-centered"
+          >
+            edit 📄
+          </a>
+          <a
+            href="{% url 'change_password' %}"
+            class="card-footer-item has-text-centered"
+          >
+            change password 🔓
+          </a>
+          {% endif %}
+        </footer>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  {% for post in page_obj.object_list %}
+  <div class="columns is-mobile">
+    <div class="column is-half is-offset-one-quarter">
+      <div class="card">
+        <div class="card-content">
+          <p class="has-text-centered">
+            <strong>{{ post.title }}</strong>
+          </p>
+          <br />
+          <p class="has-text-centered" dir="auto">{{ post.body|truncatechars:125 }}</p>
+          <br />
+          <a href="{% url 'post_details' post.id %}" class="is-flex">
+            <button class="button is-fullwidth is-primary">خواندن</button>
+          </a>
+          <br />
+          <div class="has-background-success-light has-text-centered">
+            <strong><small>{{ post.likes.count }} likes</small></strong>
+            <br />
+            <small>{{ post.posted }}</small>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
+<section class="section has-text-centered">
+  {%if page_obj.has_previous %} {# whether the previous page exists #}
+    <a href="?page={{page_obj.previous_page_number}}">
+      <button class="button">قبل</button>
+    </a>
+  {% endif %}
+  <button class="button">
+  {% if page_obj.number %}
+    {{page_obj.number}}
+  {% else %}
+    0
+  {% endif %}
+  {%if page_obj.has_next %}
+    <a href="?page={{page_obj.next_page_number}}">
+      <button class="button">بعد</button>
+    </a>
+  {% endif %}
+</section>
+
+{% endblock %}

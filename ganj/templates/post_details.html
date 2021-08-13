@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+پست
+{% endblock %}
+
+
+{% block content %}
+<section class="section">
+  <div class="columns is-mobile">
+    <div class="column is-10 is-offset-1">
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                {% if post.user.profile.pfp %}
+                  <img
+                    src="{{ post.user.profile.pfp.url }}"
+                    alt="Post image"
+                  />
+                {% else %}
+                  <img src="https://bulma.io/images/placeholders/48x48.png" alt="No Image" />
+                {% endif %}
+              </figure>
+            </div>
+
+            <a href="{% url 'others_profile' post.user.username %}">
+              <div class="media-content">
+                <p class="title is-6 mt-1">
+                  {{ post.user.first_name }}
+                  {{ post.user.last_name }}
+                </p>
+                <p class="subtitle is-6">@{{ post.user.username }}</p>
+              </div>
+            </a>
+          </div>
+          <div class="media"></div>
+          <div class="container">
+            <h2 class="title has-text-centered"><strong>{{ post.title }}</strong></h2>
+            {% if post.author %}
+              <p class="subtitle has-text-right">
+              <a href="{% url 'author' post.author %}">
+                <span class="tag is-primary is-medium" dir="auto">✍️ {{ post.author }}</span>
+              </a>
+              </p>
+            {% endif %}
+
+
+            <pre id="bodytext" class="has-text-justified" dir="rtl">{{ post.body}}</pre>
+            <div class="media">
+              <div class="media-content">
+                <div class="section" dir="auto">
+                  <form method="post" action="" role="form">
+                    {% csrf_token %}
+                    <div class="field">
+                      <p class="help is-danger">برای تغییر، قسمتی از پست را هایلایت کنید.</p>
+                      <p class="control">
+                        {{ note_form.portion }}
+                      </p>
+                    </div>
+                    <div class="field">
+                      <p class="control has-text-right">
+                        {{ note_form.body }}
+                      </p>
+                    </div>
+                    <div class="field is-grouped">
+                      <div class="control">
+                        <button type="submit" name="btnNote" class="button has-text-centered is-primary">ثبت توضیح</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- modal is-active -->
+            <div class="media">
+              <div id="modal" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                  <div class="box">
+                    {% if notes != None %}
+                      {% for note in notes %}
+                        <div class="card">
+                          <div class="card-content">
+                            <div class="media">
+                              <a href="{% url 'others_profile' note.user.username %}">
+                                <div class="media-left">
+                                  <figure class="image is-48x48">
+                                    {% if note.user.profile.pfp %}
+                                      <img src="{{ note.user.profile.pfp.url }}"
+                                        alt="Post image"/>
+                                    {% else %}
+                                      <img src="https://bulma.io/images/placeholders/64x64.png" alt="No Image" />
+                                    {% endif %}
+                                  </figure>
+                                </div>
+                              </a>
+                              <div class="media-content">
+                                <p class="title is-5">{{ note.user.first_name }} {{ note.user.last_name }}</p>
+                                <p class="subtitle is-6">@{{ note.user.username }}</p>
+                              </div>
+                            </div>
+
+                            <div class="content">
+                              <p class="title is-5 has-text-justified" dir="auto"><mark>"{{ note.portion }}"</mark></p>
+                              <br />
+                              <p class="subtitle is-6 has-text-justified" dir="auto">{{ note.body }}</p>
+                              <p class="has-text-centered"><small><i>{{ note.date }}</i></small></p>
+                            </div>
+                          </div>
+                        </div><br />
+                      {% endfor %}
+                  {% else %}
+                    <h2>هنوز هیچ یادداشتی نوشته نشده است.</h2>
+                  {% endif %}
+                  </div>
+                </div>
+                <button class="modal-close is-large" aria-label="close"></button>
+              </div>
+              <button class="button is-fullwidth is-warning is-large" id="lanuchModal">همه توضیحات</button>
+            </div>
+
+          <p class="subtitle">
+            <div class="content has-text-centered">
+              <p>
+                {% for tag in post.tags.all %}
+                  <a href="{{ tag.get_absolute_url }}" dir="auto">
+                    <span class="tag is-rounded is-info" dir="auto">#{{ tag }}</span>
+                  </a>
+                {% endfor %}
+              </p>
+              <p><strong><small>{{ post.likes.count }} likes</small></strong></p>
+              <p><small>{{ post.posted }}</small></p>
+            </div>
+          </p>
+          <footer class="card-footer">
+          
+            <a href="{% url 'like_toggle' post.id %}" class="card-footer-item">❤️</a>
+            <a class="card-footer-item">
+              <div class="dropdown is-hoverable is-up">
+                <div class="dropdown-trigger">                
+                  <span>📤</span>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                  <div class="dropdown-content">
+                    <div class="dropdown-item">
+                        <button class="button is-fullwidth is-primary" onclick="myFunction()">کپی لینک</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            {% if user.username == post.user.username %}
+              <a href="{% url 'edit_post' post.id %}" class="card-footer-item">✍️</a>
+              <a href="{% url 'delete_post' post.id %}" class="card-footer-item">❌</a>
+            {% endif %}
+          </footer>
+        </div>
+      </div><br />
+    </div>
+  </div>
+</section>
+
+
+<hr />
+<div class="block">
+  <div class="columns is-mobile">
+    <div class="column is-8 is-offset-2">
+      {% for comment in comments %}
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48 mt-1">
+              {% if comment.user.profile.pfp %}
+                <img src="{{ comment.user.profile.pfp.url }}"
+                  alt="Post image"/>
+              {% else %}
+                <img src="https://bulma.io/images/placeholders/64x64.png" alt="No Image" />
+              {% endif %}
+            </figure>
+          </div>
+          <a href="{% url 'others_profile' comment.user.username %}">
+            <div class="media-content">
+              <div class="content">
+                <p class="title is-6 py-2">
+                  {{ comment.user.first_name }}
+                  {{ comment.user.last_name }}
+                </p>
+                <p class="subtitle is-6">@{{ comment.user.username }}</p>
+              </div>
+            </a><br />
+            <p class="subtitle is-6 has-text-justified" dir="auto">{{ comment.body }}</p>
+            <p class="has-text-centered"><small><i>{{ comment.date }}</i></small></p>
+          </div>
+        </div>
+      {% endfor %}
+
+      <article class="media">
+        <div class="media-content">
+          <form method="post" action="" role="form">
+            {% csrf_token %}
+            <div class="field">
+              <p class="control">
+                {{ comment_form.body }}
+              </p>
+            </div>
+            <div class="field">
+              <p class="control has-text-right">
+                <button type="submit" name="btnComment" class="button has-text-centered is-primary">ثبت کامنت</button>
+              </p>
+            </div>
+          </form>
+        </div>
+        <figure class="media-right">
+          <p class="image is-48x48">
+            {% if user.profile.pfp %}
+              <img src="{{ user.profile.pfp.url }}"
+                alt="Post image"/>
+            {% else %}
+              <img src="{% static 'img/profile.png' %}" alt="No Image" />
+            {% endif %}
+          </p>
+        </figure>
+      </article>
+    </div>
+  </div>
+</div>
+
+<script>
+  $("#lanuchModal").click(function() {
+  
+    $(".modal").addClass("is-active"); 
+  });
+  $(".modal-close").click(function() {
+    $(".modal").removeClass("is-active");
+  });
+</script>
+
+<script>
+  var t = '';
+  var mytext = document.getElementById('bodytext')
+  function gText(e) {
+      t = (document.all) ? document.selection.createRange().text : document.getSelection();
+
+      document.getElementById('input').value = t;
+  }
+
+  mytext.onmouseup = gText;
+  if (!mytext.all) mytext.captureEvents(Event.MOUSEUP);
+</script>
+
+<script>
+  function myFunction() {
+    navigator.clipboard.writeText(window.location.href);
+    alert("لینک کپی شد!");
+  }
+</script>
+
+<style>
+  .dropdown.is-hoverable .dropdown-menu {
+    width: 50vw;
+  }
+
+  .dropdown:nth-of-type(1).is-hoverable .dropdown-menu {
+    left: initial;
+    right: -50vw;
+  }
+
+  .dropdown:nth-of-type(2).is-hoverable .dropdown-menu {
+    left: -50vw;
+  }
+
+  @media screen and (max-width: 769px) {
+    .dropdown.is-hoverable .dropdown-menu {
+      left: 0 !important;
+      right: 0 !important;
+    }
+  }
+</style>
+{% endblock %}

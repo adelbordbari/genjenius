@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}حذف پست{% endblock %}
+
+{% block content %}
+<section class="section is-medium has-text-centered">
+    <div class="notification is-danger">
+        شما اجازه ورود به این صفحه را ندارید
+    </div>
+    <hr />
+    <a href="{% url 'index' %}">
+        <button class="button is-primary">برگرد به خانه</button>
+    </a>
+</section>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>اسم | {% block title %} {% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Farsi WebFont: BFont.ir --> 
+    <!-- <link rel="stylesheet" type="text/css" href="http://font.limil.org/nastaliq-mitra.min.css"/> -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/jquery-ui.js"></script>
+    <link
+      href="https://code.jquery.com/ui/1.12.1/themes/excite-bike/jquery-ui.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.0.0/dist/font-face.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+
+  </head>
+
+  <body style="font-family: 'Vazir', sans-serif;">
+    <nav
+      class="navbar is-warning"
+      role="navigation"
+      aria-label="main navigation"
+    >
+      <div class="navbar-brand">
+        <a class="navbar-item">
+          <img src="{% static 'img/logo.png' %}" width="112" height="28" />
+        </a>
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="myNavbar"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      
+      <div class="navbar-start">
+        <a href="{% url 'home' %}" class="navbar-item"> 🏠خانه </a>
+        <a href="{% url 'write' %}" class="navbar-item"> ✏️نوشتن </a>
+        <a href="{% url 'index' %}" class="navbar-item"> 🧭گشتن </a>
+
+        {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" class="navbar-item"> 👤حساب </a>
+        {% endif %}
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link is-active"> بیشتر </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item"> 🆕تازه ها </a>
+            <a class="navbar-item" href="{% url 'about' %}"> ℹ️درباره </a>
+            <a class="navbar-item" href="{% url 'guidelines' %}">
+              ❓نحوه استفاده
+            </a>
+            <a class="navbar-item" href="{% url 'coc' %}"> 🌐قرارنامه </a>
+            <hr class="navbar-divider" />
+            <a class="navbar-item"> 🗣گزارش مشکل </a>
+          </div>
+        </div>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="navbar-item">
+            <form action="{% url 'search' %}" method="get">
+              <div class="field has-addons">
+                <p class="control">
+                  <input class="input" id="search_box" name="search_box" type="text" placeholder="جستجو" dir="rtl"/>
+                </p>
+                <p class="control">
+                  <button id="search_submit" class="button">🔍</button>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <div class="buttons">
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="button is-danger"> خروج </a>
+            {% else %}
+            <a href="{% url 'login' %}" class="button is-light"> ورود </a>
+            <a href="{% url 'signup' %}" class="button is-primary">
+              <strong>ساخت حساب</strong>
+            </a>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </nav>
+
+    <div class="section">{% block content %} {% endblock %}</div>
+    
+    <section class="section has-background-warning">
+      <nav class="level">
+        <p class="level-item has-text-centered">
+          <a href="/" class="link is-info">خانه</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <a href="{% url 'guidelines' %}" class="link is-info">نحوه استفاده</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <img src="{% static 'img/logo.png' %}" alt="" style="height: 30px" />
+        </p>
+        <p class="level-item has-text-centered">
+          <a href="{% url 'coc' %}" class="link is-info">قرارنامه</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <a href="{% url 'about' %}" class="link is-info">درباره</a>
+        </p>
+      </nav>
+    </section>
+    <br />
+    <div class="content has-text-centered">
+      <p><strong><small>
+        By <a href="#">Adel Bordbari</a>. The source code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The
+        website content is licensed
+        <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+          >CC BY NC SA 4.0</a
+        >.
+      </strong></small></p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% load static %}
+{% block title %}ساخت حساب{% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <form method="post" action="" role="form" class="col s12">
+    {% csrf_token %}
+    <div class="columns is-mobile">
+      <div class="column is-three-fifths is-offset-one-fifth">
+        <div class="card">
+          <div class="card-content">
+            <div class="content has-text-centered">
+              <p>{{ form.email }}</p>
+              <p>{{ form.username }}</p>
+              <p>{{ form.password }}</p>
+              <p>{{ form.confirm_password }}</p>
+
+              {% if form.errors %}
+              <span style="color: red; font-weight: bold">
+                اطلاعات وارد شده صحیح نیست
+              </span>
+              {% endif %}
+
+              <div class="field has-text-centered">
+                <p class="control">
+                  <br />
+                  <button
+                    class="button is-primary is-medium"
+                    type="submit"
+                    name="action"
+                  >
+                    ساخت حساب
+                  </button>
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+{% endblock %}
