@@ -1,1 +1,1 @@
-web: gunicorn fnl.wsgi:application
+web: gunicorn fnl.wsgi --log-file -
