@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'uhf',
     'comments',
     'blog',
-    'admin_view_permission',
     'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
