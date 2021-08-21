@@ -146,4 +146,5 @@ LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = '/user/login/'
 # Activate Django-Heroku.
+import django_heroku
 django_heroku.settings(locals())
