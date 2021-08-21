@@ -1,25 +1,23 @@
 import uuid
 
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
+from django.urls import reverse
 from django.db import models
 from django.db.models.fields import DateTimeField
-from django.urls import reverse
 from ganj.models import Post
-
+from django.contrib.auth.models import User
 
 class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     body = models.TextField()
     date = DateTimeField(auto_now_add=True)
 
 class Note(models.Model):
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="notes")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     likes = models.ManyToManyField(
-        get_user_model(), blank=True, related_name='notelikes')
+        User, blank=True, verbose_name='Note_likes', related_name='note_likes')
     portion = models.CharField(max_length=500)
     body = models.TextField()
     date = DateTimeField(auto_now_add=True)
