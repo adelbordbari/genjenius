@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'l1c%d1=o=t1pzd614^50=08$s)s_2!zb!!phm#fu@*oyn-1fmr'
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
