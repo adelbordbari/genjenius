@@ -1,5 +1,3 @@
-import uuid
-
 from django.urls import reverse
 from django.db import models
 from django.db.models.fields import DateTimeField
@@ -13,7 +11,7 @@ class Comment(models.Model):
     date = DateTimeField(auto_now_add=True)
 
 class Note(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="notes")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="note_post")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.ManyToManyField(
         User, blank=True, verbose_name='Note_likes', related_name='note_likes')
