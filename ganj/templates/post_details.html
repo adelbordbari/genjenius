@@ -110,10 +110,6 @@
                               <br />
                               <p class="has-text-centered"><small><i>{{ note.date }}</i></small></p>
                             </div>
-                            <div class="card-footer">
-                              <a href="{% url 'note_like_toggle' note.id %}" class="card-footer-item">❤️</a>
-                              <p class="card-footer-item"><strong><small>{{ note.likes.count }} likes</small></strong></p>
-                            </div>
                           </div>
                         </div><br />
                       {% endfor %}

@@ -349,24 +349,6 @@ def detailsView(request, post_id):
     return HttpResponseRedirect(reverse('post_details', args=[post.id]))
    
 
-class noteLikeToggleView(RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        note_id = self.kwargs.get("note_id")
-        note = get_object_or_404(Note, id=note_id)
-        url_ = note.get_absolute_url()
-        user = self.request.user
-        if user.is_authenticated:
-            if user in note.likes.all():
-                note.likes.remove(user)
-                note.user.profile.xp -= 1
-                note.user.profile.save()
-            else:
-                note.likes.add(user)
-                note.user.profile.xp += 1
-                note.user.profile.save()
-        return url_
-
-
 class likeToggleView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         post_id = self.kwargs.get("post_id")
