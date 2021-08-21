@@ -21,7 +21,7 @@
                     alt="Post image"
                   />
                 {% else %}
-                  <img src="https://bulma.io/images/placeholders/48x48.png" alt="No Image" />
+                  <img src="{% static 'img/profile.png' %}" alt="No Image" />
                 {% endif %}
               </figure>
             </div>
@@ -81,7 +81,7 @@
                 <div class="modal-background"></div>
                 <div class="modal-content">
                   <div class="box">
-                    {% if notes != None %}
+                    {% if notes %}
                       {% for note in notes %}
                         <div class="card">
                           <div class="card-content">
@@ -93,7 +93,7 @@
                                       <img src="{{ note.user.profile.pfp.url }}"
                                         alt="Post image"/>
                                     {% else %}
-                                      <img src="https://bulma.io/images/placeholders/64x64.png" alt="No Image" />
+                                      <img src="{% static 'img/profile.png' %}" alt="No Image" />
                                     {% endif %}
                                   </figure>
                                 </div>
@@ -105,16 +105,20 @@
                             </div>
 
                             <div class="content">
-                              <p class="title is-5 has-text-justified" dir="auto"><mark>"{{ note.portion }}"</mark></p>
-                              <br />
+                              <pre class="subtitle has-text-justified" dir="auto"><mark>"{{ note.portion }}"</mark></pre>
                               <p class="subtitle is-6 has-text-justified" dir="auto">{{ note.body }}</p>
+                              <br />
                               <p class="has-text-centered"><small><i>{{ note.date }}</i></small></p>
+                            </div>
+                            <div class="card-footer">
+                              <a href="{% url 'note_like_toggle' note.id %}" class="card-footer-item">❤️</a>
+                              <p class="card-footer-item"><strong><small>{{ note.likes.count }} likes</small></strong></p>
                             </div>
                           </div>
                         </div><br />
                       {% endfor %}
                   {% else %}
-                    <h2>هنوز هیچ یادداشتی نوشته نشده است.</h2>
+                    <h2 dir="auto">هنوز هیچ یادداشتی نوشته نشده است.</h2>
                   {% endif %}
                   </div>
                 </div>
@@ -137,7 +141,7 @@
             </div>
           </p>
           <footer class="card-footer">
-          
+            
             <a href="{% url 'like_toggle' post.id %}" class="card-footer-item">❤️</a>
             <a class="card-footer-item">
               <div class="dropdown is-hoverable is-up">
@@ -178,7 +182,7 @@
                 <img src="{{ comment.user.profile.pfp.url }}"
                   alt="Post image"/>
               {% else %}
-                <img src="https://bulma.io/images/placeholders/64x64.png" alt="No Image" />
+                <img src="{% static 'img/profile.png' %}" alt="No Image" />
               {% endif %}
             </figure>
           </div>
@@ -259,7 +263,7 @@
   }
 </script>
 
-<style>
+<!-- <style>
   .dropdown.is-hoverable .dropdown-menu {
     width: 50vw;
   }
@@ -279,5 +283,5 @@
       right: 0 !important;
     }
   }
-</style>
+</style> -->
 {% endblock %}

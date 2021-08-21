@@ -25,7 +25,7 @@
 </section>
 
 
-{% if prev == 'followers' or prev == 'followings' or prev == 'q_search' or prev == 'u_search' %}
+{% if prev == 'followers' or prev == 'followings' or prev == 'u_search' %}
   {% for result in page_obj.object_list %}
     <div class="columns is-mobile">
       <div class="column is-half is-offset-one-quarter">
@@ -59,6 +59,7 @@
       </div>
     </div>
   {% endfor %}
+
 {% else %}
   {% for post_item in page_obj.object_list %}
     <div class="columns is-mobile">

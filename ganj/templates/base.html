@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -75,7 +75,7 @@
             </a>
             <a class="navbar-item" href="{% url 'coc' %}"> 🌐قرارنامه </a>
             <hr class="navbar-divider" />
-            <a class="navbar-item"> 🗣گزارش مشکل </a>
+            <a class="navbar-item" href="{% url 'contact' %}"> 🗣گزارش مشکل </a>
           </div>
         </div>
       </div>
@@ -120,7 +120,7 @@
           <a href="{% url 'guidelines' %}" class="link is-info">نحوه استفاده</a>
         </p>
         <p class="level-item has-text-centered">
-          <img src="{% static 'img/logo.png' %}" alt="" style="height: 30px" />
+          <img src="{% static 'img/logo.png' %}" alt="logo" style="height: 30px" />
         </p>
         <p class="level-item has-text-centered">
           <a href="{% url 'coc' %}" class="link is-info">قرارنامه</a>

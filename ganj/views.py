@@ -8,19 +8,22 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.urls import reverse
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.views.generic import RedirectView
 from slugify import slugify_unicode
 
 from .forms import EditPostForm, NewPostForm
 from .models import Follow, Post, Stream, Tag
-from uhf.models import Profile
 
 #########################################DONE###########################################
 
 
 def homeView(request):
     template = loader.get_template('landing.html')
+    return HttpResponse(template.render({}, request))
+
+def contactView(request):
+    template = loader.get_template('contact.html')
     return HttpResponse(template.render({}, request))
 
 
@@ -210,9 +213,20 @@ def authorView(request, author):
 def tagsView(request, tag_slug):
     tag = get_object_or_404(Tag, slug=tag_slug)
     post_items = Post.objects.filter(tags=tag).order_by('-posted')
-    template = loader.get_template('index.html')
+    paginator = Paginator(post_items, 5)
+    page_number = request.GET.get('page')
+    try:
+        # returns the desired page object
+        page_obj = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        # if page_number is not an integer then assign the first page
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        # if page is empty then return last page
+        page_obj = paginator.page(paginator.num_pages)
     prev = 'tag_search'
-    context = {'post_items': post_items, 'tag': tag, 'prev': prev}
+    template = loader.get_template('index.html')
+    context = {'post_items': post_items, 'page_obj': page_obj, 'tag': tag, 'prev': prev}
     return HttpResponse(template.render(context, request))
 
 
@@ -295,7 +309,7 @@ def detailsView(request, post_id):
     user = request.user
     post = get_object_or_404(Post, id=post_id)
     comments = Comment.objects.filter(post=post).order_by("-date")
-    notes = Note.objects.filter(post=post).order_by("-date")
+    notes = Note.objects.filter(post=post).annotate(like_count=Count('likes')).order_by('-like_count')
     form1 = CommentForm()
     form2 = NoteForm()
     template = loader.get_template('post_details.html')
@@ -335,6 +349,22 @@ def detailsView(request, post_id):
     return HttpResponseRedirect(reverse('post_details', args=[post.id]))
    
 
+class noteLikeToggleView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        note_id = self.kwargs.get("note_id")
+        note = get_object_or_404(Note, id=note_id)
+        url_ = note.get_absolute_url()
+        user = self.request.user
+        if user.is_authenticated:
+            if user in note.likes.all():
+                note.likes.remove(user)
+                note.user.profile.xp -= 1
+                note.user.profile.save()
+            else:
+                note.likes.add(user)
+                note.user.profile.xp += 1
+                note.user.profile.save()
+        return url_
 
 
 class likeToggleView(RedirectView):

@@ -26,7 +26,7 @@
 		<section class="hero is-medium">
 		<style>
 			.hero {
-				background-image: linear-gradient(rgba(0,0,0,0.8)), url("https://images.unsplash.com/photo-1558613845-e4e90316eb16?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=750&q=80");
+				background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0)), url('static/img/bg.jpg');
 				background-size: cover;
 			}
 		</style>
@@ -54,7 +54,7 @@
                   </a>
                   <a class="navbar-item" href="{% url 'coc' %}"> 🌐قرارنامه </a>
                   <hr class="navbar-divider" />
-                  <a class="navbar-item"> 🗣گزارش مشکل </a>
+                  <a class="navbar-item" href="{% url 'contact' %}"> 🗣گزارش مشکل </a>
                 </div>
               </div>
             </div>
@@ -62,7 +62,7 @@
               <span class="navbar-item">
                 <img
                   class="mt-1"
-                  src="https://bulma.io/images/bulma-type-white.png"
+                  src="{% static 'img/title.png' %}"
                   alt="Logo"
                 />
               </span>
@@ -104,28 +104,25 @@
           </div>
         </div>
       </nav>
-      <br />
+      
       <!-- Hero content: will be in the middle -->
       <div class="hero-body">
         <div class="columns is-mobile">
           <div class="column is-half is-offset-one-quarter">
-
-                <div class="content">
-                  <div class="container has-text-centered">
-                    <p class="title is-1 has-text-white"><b> سلام </b></p>
-                    <br />
-                    {% if user.is_authenticated %}
-                      <p class="title is-1 has-text-white" dir="auto">خوش آمدی {{ user.first_name }}</p>
-                    {% else %}
-                    <a href="{% url 'login' %}" class="button is-light is-large">
-                      ورود
-                    </a>
-                    <a href="{% url 'signup' %}" class="button is-primary is-large">
-                      <strong>ساخت حساب</strong>
-                    </a>
-                    {% endif %}
-                  </div>
-
+            <div class="content">
+              <div class="container has-text-centered">
+                <p class="title is-1 has-text-white"><b> سلام </b></p>
+                {% if user.is_authenticated %}
+                    <p class="title is-1 has-text-white" dir="auto">خوش آمدی {{ user.first_name }}</p>
+                {% else %}
+                <a href="{% url 'login' %}" class="button is-light is-large">
+                    ورود
+                </a>
+                <a href="{% url 'signup' %}" class="button is-primary is-large">
+                    <strong>ساخت حساب</strong>
+                </a>
+                  {% endif %}
+              </div>
             </div>
           </div>
         </div>
@@ -134,10 +131,10 @@
       <!-- Hero footer: will stick at the bottom -->
       <div class="hero-foot">
         <div class="content has-text-centered">
-				<br /><br />
-        <p>⬇️</p>
-        <br /><br /><br />
-				<i><small>photo by <a href="https://unsplash.com/@fakurian"><u>Fakurian Design</u></a> via Unsplash</small></i>
+          <br /><br /><br /><br />
+          <p>⬇️</p>
+          <br /><br /><br />
+          <i><small>photo by <a href="https://unsplash.com/@fakurian"><u>Fakurian Design</u></a> via Unsplash</small></i>
           <p>
             By
             <a href="#"

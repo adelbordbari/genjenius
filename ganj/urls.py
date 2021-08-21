@@ -5,6 +5,7 @@ from uhf.views import follow
 urlpatterns = [
     path('', homeView, name='home'),
     path('404/', fourohfourView, name='404'),
+    path('contact/', contactView, name='contact'),
 
     path('meta/about/', aboutView, name='about'),
     path('meta/guidelines/', guidelinesView, name='guidelines'), #format, font, whitespace
@@ -28,7 +29,8 @@ urlpatterns = [
     path('post/<uuid:post_id>/edit/', editPostView, name='edit_post'),
     path('post/<uuid:post_id>/delete/', deletePostView, name='delete_post'),
 
-    path('post/<uuid:post_id>/like/', likeToggleView.as_view(), name='like_toggle'),    
+    path('post/<uuid:post_id>/like/', likeToggleView.as_view(), name='like_toggle'),
+    path('note/<uuid:note_id>/like/', noteLikeToggleView.as_view(), name='note_like_toggle'),    
 
     path('tag/<str:tag_slug>/', tagsView, name='tags'),
     path('author/<str:author>/', authorView, name='author'),

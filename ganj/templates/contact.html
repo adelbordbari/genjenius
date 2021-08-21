@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% load static %} {% block title %}ارتباط{% endblock%}
+
+{% block content %}
+<div class="columns is-mobile">
+  <div class="column is-three-fifths is-offset-one-fifth">
+    <div class="card has-text-right">
+      <div class="card-content dir="auto" has-text-centered">
+        <div class="media">
+          <div class="media-content">
+            <p class="title is-3">اسم</p>
+          </div>
+        </div>
+
+        <div class="content subtitle is-5 px-3 has-text-justified" dir="auto">
+          لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+          استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در
+          ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
+          کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
+          <hr />
+					<p><b>شماره تماس</b>
+					<br /><br />
+						📞 <small>01152525252</small><br />
+						📞 <small>01136363636</small>
+					</p>
+          <hr />
+					<p><b>ایمیل</b>
+					<br /><br />
+						✉️ <small>test@something.com</small>
+					</p>
+					<hr />
+					<p><b>سایر</b>
+					<br /><br />
+						📶 <small>یه راه دیگه</small>
+					</p>
+					<hr />
+					<p><b>آدرس</b>
+					<br /><br />
+						📍 <small>آدرس، فرضی، برای بعد</small>
+					</p>
+        </div>
+      </div>
+      <div class="card-image">
+        <figure class="image is-4by4">
+          <img src="{% static 'img/map.png' %}" alt="Placeholder image" />
+        </figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

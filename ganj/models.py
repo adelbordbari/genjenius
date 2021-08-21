@@ -36,7 +36,7 @@ class Post(models.Model):
     posted = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(
         User, blank=True, verbose_name='Likes', related_name='post_likes')
-    author = models.CharField(max_length=100, verbose_name='َAuthor', default='', blank=True, null=True)
+    author = models.CharField(max_length=100, verbose_name='Author', default='', blank=True, null=True)
     tags = models.ManyToManyField(Tag, related_name='tags', default=None, blank=True)
 
     def get_absolute_url(self):

@@ -9,8 +9,8 @@
         <button class="button is-danger">👍</button>
     </form>
     <hr />
-    <a href="{% url 'index' %}">
-        <button class="button is-primary">🏠نه، برگرد به خانه</button>
+    <a href="{% url 'post_details' post.id %}">
+        <button class="button is-primary">نه، برگرد عقب</button>
     </a>
 </section>
 {% endblock %}
