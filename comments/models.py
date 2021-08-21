@@ -15,7 +15,7 @@ class Comment(models.Model):
     date = DateTimeField(auto_now_add=True)
 
 class Note(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
+    #id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     likes = models.ManyToManyField(
