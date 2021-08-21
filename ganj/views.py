@@ -309,7 +309,7 @@ def detailsView(request, post_id):
     user = request.user
     post = get_object_or_404(Post, id=post_id)
     comments = Comment.objects.filter(post=post).order_by("-date")
-    notes = Note.objects.filter(post=post).annotate(like_count=Count('likes')).order_by('-like_count')
+    notes = Note.objects.filter(post=post).order_by('-date')
     form1 = CommentForm()
     form2 = NoteForm()
     template = loader.get_template('post_details.html')
