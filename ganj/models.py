@@ -7,7 +7,6 @@ from django.urls import reverse
 from slugify import slugify_unicode
 
 
-
 class Tag(models.Model):
     title = models.CharField(max_length=255, verbose_name='Tag')
     slug = models.SlugField(null=False, unique=True)
