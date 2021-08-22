@@ -13,18 +13,8 @@ class Comment(models.Model):
     date = DateTimeField(auto_now_add=True)
 
 class Note(models.Model):
-    uuid = UUIDField(default=uuid.uuid4, editable=False, unique=True, blank=False)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="note_post")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     portion = models.CharField(max_length=500)
     body = models.TextField()
-    pasand = models.ManyToManyField(User, verbose_name='Likes', related_name="pasand")
     date = DateTimeField(auto_now_add=True)
-    def get_absolute_url(self):
-        return reverse('post_details', args=[str(self.post.id)])
-
-    def get_like_url(self):
-        return reverse('pasand_toggle', args=[str(self.id)])
-
-    def __str__(self):
-        return self.body[:20]

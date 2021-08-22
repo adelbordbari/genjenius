@@ -366,24 +366,6 @@ class likeToggleView(RedirectView):
                 post.user.profile.save()
         return url_
 
-class pasandView(RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        note_uuid = self.kwargs.get("note_uuid")
-        note = get_object_or_404(Note, id=note_uuid)
-        url_ = note.get_absolute_url()
-        user = self.request.user
-        if user.is_authenticated:
-            if user in note.likes.all():
-                note.likes.remove(user)
-                note.user.profile.xp -= 1
-                note.user.profile.save()
-            else:
-                note.likes.add(user)
-                note.user.profile.xp += 1
-                note.user.profile.save()
-        return url_
-        
-
 @login_required
 def userProfileView(request, username):
     user = get_object_or_404(User, username=username)
