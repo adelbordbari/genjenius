@@ -30,6 +30,7 @@ urlpatterns = [
     path('post/<uuid:post_id>/delete/', deletePostView, name='delete_post'),
 
     path('post/<uuid:post_id>/like/', likeToggleView.as_view(), name='like_toggle'),
+    path('note/<uuid:note_uuid>/like/', pasandView.as_view(), name='pasand_toggle'),
 
     path('tag/<str:tag_slug>/', tagsView, name='tags'),
     path('author/<str:author>/', authorView, name='author'),
